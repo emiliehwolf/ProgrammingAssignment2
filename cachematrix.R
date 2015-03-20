@@ -10,14 +10,14 @@
 ## This function creates get/set functions to assign values to
 ## the matrices in the parent frame so computations aren't lost
 makeCacheMatrix <- function(x = matrix()) {
-  im <- NULL
+  m <- NULL
   set <- function(y) {
     x <<- y
-    im <<- NULL
+    m <<- NULL
   }
   get <- function() x                             
-  setinverse <- function(solve) im <<- solve
-  getinverse <- function() im
+  setinverse <- function(solve) m <<- solve
+  getinverse <- function() m
   list(set = set, get = get,
        setinverse = setinverse,
        getinverse = getinverse)  
@@ -27,14 +27,14 @@ makeCacheMatrix <- function(x = matrix()) {
 ## This function finds the inverse matrix, either by solving it
 ## computationally, or by retrieving it from memory
 cacheSolve <- function(x, ...) {
-  im <- x$getinverse()
-  if(!is.null(im)) {
+  m <- x$getinverse()
+  if(!is.null(m)) {
     message("getting cached data")
-    return(im)
+    return(m)
   }
   data <- x$get()
-  im <- solve(data, ...)
-  x$setinverse(im)
-  im
+  m <- solve(data, ...)
+  x$setinverse(m)
+  m
   ## Return a matrix that is the inverse of 'x'
 }
